@@ -5,6 +5,8 @@ import socket
 import random
 import json
 
+redis_endpoint = os.getenv('REDIS_ENDPOINT', "redis")
+
 option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
 hostname = socket.gethostname()
@@ -12,8 +14,8 @@ hostname = socket.gethostname()
 app = Flask(__name__)
 
 def get_redis():
-    if not hasattr(g, 'redis'):
-        g.redis = Redis(host="redis", db=0, socket_timeout=5)
+    if not hasattr(g, redis_endpoint):
+        g.redis = Redis(host=redis_endpoint, db=0, socket_timeout=5)
     return g.redis
 
 @app.route("/", methods=['POST','GET'])

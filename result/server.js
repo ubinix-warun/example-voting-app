@@ -13,6 +13,7 @@ var express = require('express'),
 io.set('transports', ['polling']);
 
 var port = process.env.PORT || 4000;
+var db_endpoint = process.env.DB_ENDPOINT || 'db';
 
 io.sockets.on('connection', function (socket) {
 
@@ -24,7 +25,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 var pool = new pg.Pool({
-  connectionString: 'postgres://postgres:postgres@db/postgres'
+  connectionString: 'postgres://postgres:postgres@'+db_endpoint+'/postgres'
 });
 
 async.retry(

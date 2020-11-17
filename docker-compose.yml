@@ -4,6 +4,8 @@ services:
   vote:
     build: ./vote
     command: python app.py
+    environment:
+      REDIS_ENDPOINT: "redis"
     volumes:
      - ./vote:/app
     ports:
@@ -15,6 +17,8 @@ services:
   result:
     build: ./result
     command: nodemon server.js
+    environment:
+      DB_ENDPOINT: "db"
     volumes:
       - ./result:/app
     ports:
@@ -27,6 +31,9 @@ services:
   worker:
     build:
       context: ./worker
+    environment:
+      REDIS_ENDPOINT: "redis"
+      DB_ENDPOINT: "db"
     depends_on:
       - "redis"
       - "db"
